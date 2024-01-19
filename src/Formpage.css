@@ -8,16 +8,27 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
+    background-color: #00171f;
   }
-  
+  .background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.4;
+    /* Adjust the z-index to make sure the form elements are on top of the background image */
+}
   /* Style the form container */
   form {
-    background-color: #345661;
+    background-color:whitesmoke;
     border-radius: 8px;
     box-shadow: 0 0 50px rgba(12, 12, 12, 0.5);
     padding: 20px;
     width: 300px;
     display: grid;
+    color: #345661;
   }
   
   /* Style the form labels */
@@ -39,7 +50,7 @@ body {
   
   /* Style the error messages */
   div {
-    color: #ffffff; /* Bootstrap's danger color */
+    color:red; /* Bootstrap's danger color */
     margin-top: -10px;
     margin-bottom: 10px;
     font-size: 14px;
@@ -60,7 +71,7 @@ body {
   
   /* Style the submit button on hover */
   button:hover {
-    background-color: #d7b5a1;
+    background-color: #a1cbd7;
     color: #345661; /* Darker shade on hover */
     
   }
