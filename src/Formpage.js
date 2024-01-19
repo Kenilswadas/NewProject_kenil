@@ -2,6 +2,7 @@ import React from "react";
 import "./Formpage.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import img_form from "./images/Checklist.jpg";
 
 function Formpage() {
   //   const validate = (values) => {
@@ -34,6 +35,7 @@ function Formpage() {
       firstName: "",
       lastName: "",
       email: "",
+      password: "",
     },
     // validate,
     validationSchema: Yup.object({
@@ -44,21 +46,30 @@ function Formpage() {
         .max(20, "Must be 20 characters or less")
         .required("Required"),
       email: Yup.string().email("Invalid email address").required("required"),
+      password: Yup.string()
+        .min(8, "enter minimum 8 characters")
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-])[a-zA-Z\d!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]{8,}$/,
+          "Password must contain at least one uppercase letter, one lowercase letter, and one digit and one Special character"
+        )
+        .required("required"),
     }),
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
+      formik.resetForm();
     },
   });
   console.log(formik);
   return (
-    <>
+    <div>
+      <img src={img_form} alt="" class="background-image" />
       <form onSubmit={formik.handleSubmit}>
         <label htmlFor="firstName">First Name</label>
         <input
           id="firstName"
-          {...formik.getFieldProps("firstName")} //why this .........solved
-          //this is because of we don't want to add below three line 
           type="text"
+          {...formik.getFieldProps("firstName")} //why this .........solved
+          //this is because of we don't want to add below three line
           //   name="firstName"
           //   onChange={formik.handleChange}
           //   value={formik.values.firstName}
@@ -70,9 +81,10 @@ function Formpage() {
         <input
           id="lastName"
           type="text"
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          value={formik.values.lastName}
+          {...formik.getFieldProps("lastName")}
+          // onBlur={formik.handleBlur}
+          // onChange={formik.handleChange}
+          // value={formik.values.lastName}
         />
         {formik.touched.lastName && formik.errors.lastName ? (
           <div>{formik.errors.lastName}</div>
@@ -80,18 +92,27 @@ function Formpage() {
         <label htmlFor="email">Email Address</label>
         <input
           id="email"
-          name="email"
           type="email"
-          onChange={formik.handleChange}
-          value={formik.values.email}
+          {...formik.getFieldProps("email")}
+          // name="email"
+          // onChange={formik.handleChange}
+          // value={formik.values.email}
         />
         {formik.touched.email && formik.errors.email ? (
           <div>{formik.errors.email}</div>
         ) : null}
-
+        <label htmlFor="password">Password</label>
+        <input
+          id="password"
+          type="text"
+          {...formik.getFieldProps("password")}
+        />
+        {formik.touched.password && formik.errors.password ? (
+          <div>{formik.errors.password}</div>
+        ) : null}
         <button type="submit">Submit</button>
       </form>
-    </>
+    </div>
   );
 }
 
