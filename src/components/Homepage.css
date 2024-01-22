@@ -9,7 +9,7 @@ h1 {
   width: 200px;
   /* z-index: -1; */
   /* opacity: 1; */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  box-shadow: 0 4px 8px rgba(24, 24, 24, 0.1); /* Add a subtle shadow */
 }
 h1 {
   text-align: center;

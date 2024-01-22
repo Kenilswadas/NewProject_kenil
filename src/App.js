@@ -9,7 +9,7 @@ function App() {
     <>
       {/* <SignUp /> */}
       {/* <SignIn/> */}
-      <Home/>
+      <Home/> 
     </>
   );
 }
