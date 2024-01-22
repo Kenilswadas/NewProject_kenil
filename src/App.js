@@ -1,14 +1,17 @@
-import React from 'react'
-import SignUp from './components/SignUp'
-import Formpage from './Formpage'
+import React from "react";
+// import SignUp from "./components/SignUp";
+// import SignIn from './components/SignIn'
+// import Formpage from './Formpage'
+import Home from "./components/Home";
 
 function App() {
   return (
     <>
-    <Formpage />
-    {/* <SignUp /> */}
+      {/* <SignUp /> */}
+      {/* <SignIn/> */}
+      <Home/>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
