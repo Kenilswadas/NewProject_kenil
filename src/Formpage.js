@@ -3,6 +3,8 @@ import "./Formpage.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import img_form from "./images/Checklist.jpg";
+import { auth } from "./Firebase";
+import { createUserWithEmailAndPassword } from "@firebase/auth";
 
 function Formpage() {
   //   const validate = (values) => {
@@ -13,13 +15,11 @@ function Formpage() {
   //     } else if (values.firstName.length > 15) {
   //       errors.firstName = "Must be 15 characters or less";
   //     }
-
   //     if (!values.lastName) {
   //       errors.lastName = "Required";
   //     } else if (values.lastName.length > 20) {
   //       errors.lastName = "Must be 20 characters or less";
   //     }
-
   //     if (!values.email) {
   //       errors.email = "Required";
   //     } else if (
@@ -27,9 +27,21 @@ function Formpage() {
   //     ) {
   //       errors.email = "Invalid email address";
   //     }
-
   //     return errors;
   //   };
+  const handleSave = (e) => {
+    console.log("jki");
+    e.preventDefault();
+    createUserWithEmailAndPassword(
+      auth,
+      formik.values.email,
+      formik.values.password
+    ).then((Response) => {
+      console.log(Response);
+    }); 
+  };
+
+  
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -49,21 +61,22 @@ function Formpage() {
       password: Yup.string()
         .min(8, "enter minimum 8 characters")
         .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-])[a-zA-Z\d!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]{8,}$/,
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~\\/-])[a-zA-Z\d!@#$%^&*()_+{}[\]:;<>,.?~\\/-]{8,}$/,
           "Password must contain at least one uppercase letter, one lowercase letter, and one digit and one Special character"
         )
         .required("required"),
     }),
-    onSubmit: (values) => {
+    onSubmit : (values) => {
       alert(JSON.stringify(values, null, 2));
-      formik.resetForm();
-    },
+      // formik.resetForm();
+    }
+  
   });
-  console.log(formik);
+  // console.log(formik);
   return (
     <div>
       <img src={img_form} alt="" class="background-image" />
-      <form onSubmit={formik.handleSubmit}>
+      <form action="" onSubmit={handleSave}>
         <label htmlFor="firstName">First Name</label>
         <input
           id="firstName"
