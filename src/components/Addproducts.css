@@ -1,0 +1,48 @@
+.main {
+  text-align: center;
+  background-color:lightblue;
+}
+
+.input,
+.button {
+  padding: 10px; /* Increased padding for better spacing */
+  margin: 10px 20px; /* Adjusted margin for better spacing */
+  background-color: rgb(36, 70, 95);
+  color: #fff; /* Use a common shorthand for specifying white color */
+  border: none; /* Removed default border */
+  border-radius: 5px; /* Added border-radius for rounded corners */
+  cursor: pointer; /* Added cursor style for better user experience */
+  transition: background-color 0.3s ease; /* Added a smooth transition effect for background-color */
+}
+
+/* Hover effect for buttons */
+.button:hover {
+  background-color: rgb(45, 61, 73);
+}
+
+.mainoutputdiv {
+  /* background-color: gray; */
+  margin: 0%;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: rgba(255, 255, 255, 0.978);
+  font-family: cursive;
+  font-size: medium;
+  width:auto;
+  /* display:inline-block; */
+  margin: 10px; /* Increased margin for spacing */
+  padding: 0px; /* Added padding for better readability */
+  border-radius: 10px; /* Added border-radius for a rounded appearance */
+}
+
+/* Additional styling for heading and content within the card */
+.card h1 {
+  color: darkslategray;
+  font-size: 1.5em;
+}
+
+.card p {
+  color: rgb(158, 240, 137);
+  margin-top: 10px;
+}

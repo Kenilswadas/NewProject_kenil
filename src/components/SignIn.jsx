@@ -5,8 +5,9 @@ import img_form from "../images/Checklist.jpg";
 import { auth } from "../Firebase";
 import { signInWithEmailAndPassword } from "@firebase/auth";
 import "../components/SignIn.css";
-
+import {Link, useNavigate} from 'react-router-dom'
 function SignIn() {
+  const navigate = useNavigate();
   const [error, seterror] = useState()
   async function handleSubmit(event) {
     console.log("hi");
@@ -18,6 +19,9 @@ function SignIn() {
     )
       .then((data) => {
         console.log(data.user);
+        alert("Successfully Logged In");
+        alert(formik.values.email,formik.values.password);
+        navigate("/Home");
       })
       .catch((error) => {
         seterror(error);
@@ -39,17 +43,19 @@ function SignIn() {
         )
         .required("required"),
     }),
+    
     onSubmit: (values) => {
-      // alert(JSON.stringify(values, null, 2));
+      alert(JSON.stringify(values, null, 2));
       // formik.resetForm();
     },
   });
+ 
   return (
-    <div className="body">
-      <img src={img_form} alt="" className="background-image" />
-      <div className="container">
-        <form action="" className="form" noValidate>
-          <h1>SignIn page</h1>
+    <div className="SignIn_main">
+      <img src={img_form} alt="" className="SignIn_background-image" />
+      <div className="SignIn_container">
+        <form action="" className="SignIn_form"  noValidate>
+          <h1 className="SignIn_h1">SignIn page</h1>
           <label htmlFor="Email">Email</label>
           <input
             id="email"
@@ -62,9 +68,10 @@ function SignIn() {
             id="password"
             type="password"
             placeholder="Enter your password...."
+            // onChange={(e)=>console.log(e.target.value)}
             {...formik.getFieldProps("password")}
           />
-          {error ? <div>{error.message}</div> : null}
+          {error? <div className="SignIn_errordiv">{error.message}</div> :null}
           <button type="submit" onClick={handleSubmit}>
             Sign In
           </button>

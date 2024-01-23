@@ -1,14 +1,13 @@
-body {
+.SignIn_main {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
   margin: 0;
-  background-color: #66777c;
   color: #66777c;
 }
 
-.container {
+.SignIn_container {
   max-width: 500px;
   display: grid;
   padding: 20px;
@@ -17,37 +16,40 @@ body {
   background-color: whitesmoke;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.background-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    opacity: 0.4;
-  }
-.form {
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-  }
-
-h1 {
+.SignIn_background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.4;
+}
+.SignIn_form {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+.SignIn_h1{
   text-align: center;
 }
 
-label {
+.SignIn_form label{
   margin-bottom: 8px;
   font-weight: bold;
 }
-input {
+.SignIn_form input {
   padding: 8px;
   margin-bottom: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
-button {
+.SignIn_errordiv{
+  display: flex;
+  color: red;
+  margin: 1%;
+}
+.SignIn_form button {
   padding: 10px;
   background-color: #007bff;
   color: #fff;
@@ -56,7 +58,7 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.SignIn_form button:hover {
   background-color: #103b47;
   color: #d2dee3; /* Darker shade on hover */
 }

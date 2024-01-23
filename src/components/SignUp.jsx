@@ -1,28 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "../components/SignUp.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import img_form from "../images/Checklist.jpg";
 import { auth } from "../Firebase";
 import { createUserWithEmailAndPassword } from "@firebase/auth";
+import { Link, useNavigate } from "react-router-dom";
+
 function SignUp() {
-  async function handleSubmit(event) {
-    console.log("hi");
-    event.preventDefault();
-    await createUserWithEmailAndPassword(
-      auth,
-      formik.values.email,
-      formik.values.password
-    )
-      .then((credentails) => {
-        console.log(credentails);
-      })
-      .catch(() => {
-        console.log(formik.errors);
-      });
-    alert(JSON.stringify(formik.values, null, 2));
-    formik.resetForm();
-  }
+  const navigate = useNavigate();
+  const [valid, setValid] = useState(true);
   const formik = useFormik({
     initialValues: {
       Name: "",
@@ -43,25 +30,41 @@ function SignUp() {
         .required("required"),
     }),
     onSubmit: (values) => {
+      console.log("hi");
+      createUserWithEmailAndPassword(
+        auth,
+        formik.values.email,
+        formik.values.password
+      )
+        .then((credentails) => {
+          console.log(credentails);
+          setValid(true);
+        })
+        .catch(() => {
+          console.log(formik.errors);
+        });
+      formik.resetForm();
+      alert("account creaated");
       alert(JSON.stringify(values, null, 2));
-      // formik.resetForm();
+      navigate("/SignIn")
     },
   });
+
   return (
-    <div className="main">
-      <img src={img_form} alt="" className="background-image" />
-      <div className="container">
-        <h1>SignUP page</h1>
-        <form action="" onSubmit={handleSubmit} className="form">
+    <div className="SignUp_main">
+      <img src={img_form} alt="" className="SignUp_background-image" />
+      <div className="SignUp_container">
+        <h1 className="SignUp_h1">SignUP page</h1>
+        <form action="" onSubmit={formik.handleSubmit} className="SignUp_form">
           <label htmlFor="Name">Name</label>
           <input id="Name" type="text" {...formik.getFieldProps("Name")} />
           {formik.touched.Name && formik.errors.Name ? (
-            <div>{formik.errors.Name}</div>
+            <div className="SignUp_errordiv">{formik.errors.Name}</div>
           ) : null}
           <label htmlFor="email">Email Address</label>
           <input id="email" type="email" {...formik.getFieldProps("email")} />
           {formik.touched.email && formik.errors.email ? (
-            <div>{formik.errors.email}</div>
+            <div className="SignUp_errordiv">{formik.errors.email}</div>
           ) : null}
           <label htmlFor="password">Password</label>
           <input
@@ -70,11 +73,18 @@ function SignUp() {
             {...formik.getFieldProps("password")}
           />
           {formik.touched.password && formik.errors.password ? (
-            <div>{formik.errors.password}</div>
+            <div className="SignUp_errordiv">{formik.errors.password}</div>
           ) : null}
           <button type="submit">Submit</button>
+          <p>
+            {`Already have an account ? || `}
+            {
+              <Link to="/SignIn">
+                <button>Sign In</button>
+              </Link>
+            }
+          </p>
         </form>
-        <p>{`Already have an account ||`}{}</p>
       </div>
     </div>
   );
