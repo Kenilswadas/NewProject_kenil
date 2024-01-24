@@ -1,12 +1,15 @@
 .main {
-  text-align: center;
-  background-color:lightblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color:bisque;
 }
-
 .input,
 .button {
+  
   padding: 10px; /* Increased padding for better spacing */
-  margin: 10px 20px; /* Adjusted margin for better spacing */
+  margin: 20px 20px ; /* Adjusted margin for better spacing */
   background-color: rgb(36, 70, 95);
   color: #fff; /* Use a common shorthand for specifying white color */
   border: none; /* Removed default border */
@@ -24,20 +27,19 @@
   /* background-color: gray; */
   margin: 0%;
 }
-.card {
+/* .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   background-color: rgba(255, 255, 255, 0.978);
   font-family: cursive;
   font-size: medium;
-  width:auto;
-  /* display:inline-block; */
-  margin: 10px; /* Increased margin for spacing */
-  padding: 0px; /* Added padding for better readability */
-  border-radius: 10px; /* Added border-radius for a rounded appearance */
-}
+  width: auto;
+  margin: 10px; 
+  padding: 0px;
+  border-radius: 10px; 
+} */
 
 /* Additional styling for heading and content within the card */
-.card h1 {
+/* .card h1 {
   color: darkslategray;
   font-size: 1.5em;
 }
@@ -45,4 +47,17 @@
 .card p {
   color: rgb(158, 240, 137);
   margin-top: 10px;
+} */
+/* simple table css */
+table {
+  border: 2px solid cadetblue;
+}
+table th {
+  border: 2px solid cadetblue;
+}
+table td {
+  border: 2px solid cadetblue;
+}
+button{
+  margin: 2%;
 }

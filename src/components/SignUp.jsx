@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function SignUp() {
   const navigate = useNavigate();
-  const [valid, setValid] = useState(true);
+  const [ setValid] = useState(true);
   const formik = useFormik({
     initialValues: {
       Name: "",

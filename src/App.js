@@ -9,8 +9,16 @@ function App() {
 
   return (
     <>
-    <Addproducts />
-    {/* <SignUp /> */}
+    <Addproducts/> 
+      {/* <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="Home" element={ <Home />} />
+          <Route path="/" element={<SignUp />} />
+            <Route path="SignIn" element={<SignIn />} />
+        </Routes>
+      </BrowserRouter>
+      </AuthProvider> */}
     </>
   );
 }
