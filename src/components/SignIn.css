@@ -1,4 +1,4 @@
-.SignUp_main {
+.SignIn_main {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6,15 +6,17 @@
   margin: 0;
   color: #66777c;
 }
-.SignUp_container {
-  max-width: 400px;
+
+.SignIn_container {
+  max-width: 500px;
+  display: grid;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: whitesmoke;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.SignUp_background-image {
+.SignIn_background-image {
   position: absolute;
   top: 0;
   left: 0;
@@ -23,35 +25,31 @@
   z-index: -1;
   opacity: 0.4;
 }
-.SignUp_h1 {
-  text-align: center;
-}
-
-.SignUp_form {
+.SignIn_form {
   width: 400px;
   display: flex;
   flex-direction: column;
 }
+.SignIn_h1{
+  text-align: center;
+}
 
-.SignUp_form label {
+.SignIn_form label{
   margin-bottom: 8px;
   font-weight: bold;
 }
-
-.SignUp_form input {
+.SignIn_form input {
   padding: 8px;
   margin-bottom: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-.SignUp_errordiv {
+.SignIn_errordiv{
   display: flex;
   color: red;
   margin: 1%;
-  margin-top: -20px;
 }
-
-.SignUp_form button {
+.SignIn_form button {
   padding: 10px;
   background-color: #007bff;
   color: #fff;
@@ -60,16 +58,7 @@
   cursor: pointer;
 }
 
-.SignUp_form button:hover {
+.SignIn_form button:hover {
   background-color: #103b47;
   color: #d2dee3; /* Darker shade on hover */
-}
-.SignUp_form p button{
-  padding: 5px;
-  background-color:transparent;
-  font-size: medium;
-  margin: 0px;
-  color: #103b47;
-  border-radius: 4px;
-  cursor: pointer;
 }
