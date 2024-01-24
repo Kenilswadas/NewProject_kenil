@@ -1,15 +1,16 @@
-import React from "react";
+import {React} from "react";
+// import { BrowserRouter, Routes, Route} from "react-router-dom";
+// import SignIn from "./components/SignIn";
+// import Home from "./components/Home";
 // import SignUp from "./components/SignUp";
-// import SignIn from './components/SignIn'
-// import Formpage from './Formpage'
-import Home from "./components/Home";
-
+// import { AuthProvider } from './components/AuthProvider';
+import Addproducts from "./components/Addproducts";
 function App() {
+
   return (
     <>
-      {/* <SignUp /> */}
-      {/* <SignIn/> */}
-      <Home/> 
+    <Addproducts />
+    {/* <SignUp /> */}
     </>
   );
 }
