@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, Transition } from "react";
 import { db } from "../Firebase";
 import {
   doc,
@@ -16,6 +16,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slide from "@mui/material/Slide";
 import {
   addDoc,
   collection,
@@ -35,7 +42,7 @@ function Addproducts() {
   const [newProductName, setNewProductName] = useState("");
   const [newProductPrice, setNewProductPrice] = useState("");
   const [newProductcolor, setNewProductcolor] = useState("");
-  const [indexId, setindexId] = useState(null)
+  const [indexId, setindexId] = useState(null);
 
   useEffect(() => {
     productSnapshot();
@@ -69,28 +76,34 @@ function Addproducts() {
   const DeleteProducts = async (indexId) => {
     try {
       await deleteDoc(doc(db, "Products", indexId));
-      alert("delete....");
+      // alert("delete....");
     } catch (error) {
       console.log(error.message);
     }
   };
-  //update function
-  const updateProducts = async (indexId) => {
-    console.log(indexId);
-    setindexId(indexId);
-    setOpenUpdate(true);
-    // setProductName("")
-    // setProductPrice("")
-    // setProductcolor("")
-    
+  //handleClickOpen function
+  const handleClickOpen = () => {
+    setOpenUpdate(false);
+    FinalUpadte();
   };
-  const FinalUpadte = ()=>{
-setDoc(doc(db, "Products",indexId), {
+  //handleClose function
+  const handleClose = () => {
+    setOpenUpdate(false);
+  };
+  //update function
+  console.log(ProductName);
+  const updateProducts = async (indexId) => {
+    setOpenUpdate(true);
+    setindexId(indexId);
+    // FinalUpadte();
+  };
+  const FinalUpadte = () => {
+    setDoc(doc(db, "Products", indexId), {
       Product_Name: newProductName,
       Product_Price: newProductPrice,
       Product_color: newProductcolor,
     });
-  }
+  };
   //open form on click of update btn
 
   //table styles...........
@@ -165,7 +178,9 @@ setDoc(doc(db, "Products",indexId), {
                   <StyledTableCell>Product Name</StyledTableCell>
                   <StyledTableCell>Product Price</StyledTableCell>
                   <StyledTableCell>Product Color</StyledTableCell>
-                  <StyledTableCell>Upadte collection</StyledTableCell>
+                  <StyledTableCell colSpan={2}>
+                    Upadte collection
+                  </StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -176,7 +191,7 @@ setDoc(doc(db, "Products",indexId), {
                     </StyledTableCell>
                     <StyledTableCell>{e.Product_Price}</StyledTableCell>
                     <StyledTableCell>{e.Product_color}</StyledTableCell>
-                    <StyledTableCell>
+                    <StyledTableCell className="StyledTableCell">
                       <button
                         key={e.id}
                         type="button"
@@ -184,6 +199,8 @@ setDoc(doc(db, "Products",indexId), {
                       >
                         Delete
                       </button>
+                    </StyledTableCell>
+                    <StyledTableCell className="StyledTableCell">
                       <button
                         key={e.id}
                         type="button"
@@ -198,13 +215,13 @@ setDoc(doc(db, "Products",indexId), {
             </Table>
           </TableContainer>
         </div>
-        {openUpadte ? (
+        {/* {openUpadte ? (
           <div>
             <label htmlFor="Product_Name">Product Name : </label>
             <input
               type="text"
               placeholder="update name"
-              value={ProductName}
+              // value={ProductName}
               onChange={(e) => setNewProductName(e.target.value)}
             />
             <label htmlFor="Product_Name">Product Price : </label>
@@ -218,12 +235,55 @@ setDoc(doc(db, "Products",indexId), {
             <input
               type="text"
               placeholder="update color"
-              // value={Productcolor}
-              onChange={(e) => setNewProductcolor(e.target.value)}
+              
+              onChange={(e) => {
+                setNewProductcolor(e.target.value);
+              }}
             />
-            <button type="button" onClick={()=>FinalUpadte()}>update</button>
+            <button type="button" onClick={() => FinalUpadte()}>
+              update
+            </button>
           </div>
-        ) : null}
+        ) : null} */}
+        <Dialog
+          open={openUpadte}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleClose}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle className="DialogTitle">
+            {"Are you sure want to update ?"}
+          </DialogTitle>
+          <DialogContent className="DialogContent">
+            <label htmlFor="Product_Name">Product Name : </label>
+            <input
+              type="text"
+              placeholder="update name"
+              // value={ProductName}
+              onChange={(e) => setNewProductName(e.target.value)}
+            />
+            <label htmlFor="Product_Name">Product Price : </label>
+            <input
+              type="text"
+              placeholder="update Price"
+              // value={ProductPrice}
+              onChange={(e) => setNewProductPrice(e.target.value)}
+            />
+            <label htmlFor="Product_color">Product color : </label>
+            <input
+              type="text"
+              placeholder="update color"
+              onChange={(e) => {
+                setNewProductcolor(e.target.value);
+              }}
+            />
+          </DialogContent>
+          <DialogActions className="DialogActions">
+            <Button onClick={handleClose}>Delete</Button>
+            <Button onClick={handleClickOpen}>Upadte</Button>
+          </DialogActions>
+        </Dialog>
       </form>
     </div>
   );
