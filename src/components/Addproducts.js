@@ -1,12 +1,35 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, Transition } from "react";
 import { db } from "../Firebase";
+import {
+  doc,
+  updateDoc,
+  deleteDoc,
+  deleteField,
+  setDoc,
+} from "firebase/firestore";
 import "../components/Addproducts.css";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slide from "@mui/material/Slide";
 import {
   addDoc,
   collection,
-  doc,
-  getDoc,
   getDocs,
+  // doc,
+  // getDoc,
+  // getDocs,
   onSnapshot,
 } from "@firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
@@ -15,6 +38,11 @@ function Addproducts() {
   const [ProductPrice, setProductPrice] = useState("");
   const [Productcolor, setProductcolor] = useState("");
   const [Product, setProduct] = useState([]);
+  const [openUpadte, setOpenUpdate] = useState(false);
+  const [newProductName, setNewProductName] = useState("");
+  const [newProductPrice, setNewProductPrice] = useState("");
+  const [newProductcolor, setNewProductcolor] = useState("");
+  const [indexId, setindexId] = useState(null);
 
   useEffect(() => {
     productSnapshot();
@@ -34,7 +62,7 @@ function Addproducts() {
     e.preventDefault();
     try {
       addDoc(collection(db, "Products"), {
-        id: uuidv4(),
+        uid: uuidv4(),
         Product_Name: ProductName,
         Product_Price: ProductPrice,
         Product_color: Productcolor,
@@ -44,6 +72,60 @@ function Addproducts() {
       console.log(error.message);
     }
   };
+  //delete function
+  const DeleteProducts = async (indexId) => {
+    try {
+      await deleteDoc(doc(db, "Products", indexId));
+      // alert("delete....");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  //handleClickOpen function
+  const handleClickOpen = () => {
+    setOpenUpdate(false);
+    FinalUpadte();
+  };
+  //handleClose function
+  const handleClose = () => {
+    setOpenUpdate(false);
+  };
+  //update function
+  console.log(ProductName);
+  const updateProducts = async (indexId) => {
+    setOpenUpdate(true);
+    setindexId(indexId);
+    // FinalUpadte();
+  };
+  const FinalUpadte = () => {
+    setDoc(doc(db, "Products", indexId), {
+      Product_Name: newProductName,
+      Product_Price: newProductPrice,
+      Product_color: newProductcolor,
+    });
+  };
+  //open form on click of update btn
+
+  //table styles...........
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "tomato",
+      color: theme.palette.common.white,
+      textAlign: "center", // Center text align for header cells
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+      color: "red",
+      textAlign: "center", // Center text align for body cells
+      borderBottom: `1px solid black`, // Add border to separate rows
+    },
+  }));
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  }));
+
   return (
     <div className="main">
       <form className="form" action="">
@@ -52,6 +134,7 @@ function Addproducts() {
           className="input"
           type="text"
           placeholder="name"
+          // value={Product.ProductName}
           onChange={(e) => setProductName(e.target.value)}
         />
         <label htmlFor="Price">Price :</label>
@@ -72,22 +155,135 @@ function Addproducts() {
           Add Item
         </button>
         <div className="mainoutputdiv">
-          {Product.map((e) => (
-            <div className="card">
-              <table>
-                <th>{["Name : " + e.Product_Name]}</th>
-              </table>
-              <table>
-                <tr>
-                  <td>{["price : " + e.Product_Price]}</td>
-                </tr>
-                <tr>
-                  <td>{["color : " + e.Product_color]}</td>
-                </tr>
-              </table>
-            </div>
-          ))}
+          {/* normal table */}
+          {/* <table>
+            <tr>
+              <th>jlfjsdlkhflk</th>
+              <th>jlfjsdlkhflk</th>
+              <th>jlfjsdlkhflk</th>
+            </tr>
+            {Product.map((e) => (
+              <tr>
+                <td>{["Name : " + e.Product_Name]}</td>
+                <td>{["price : " + e.Product_Price]}</td>
+                <td>{["color : " + e.Product_color]}</td>
+              </tr>
+            ))}
+          </table> */}
+          {/* material ui */}
+          <TableContainer component={Paper}>
+            <Table aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Product Name</StyledTableCell>
+                  <StyledTableCell>Product Price</StyledTableCell>
+                  <StyledTableCell>Product Color</StyledTableCell>
+                  <StyledTableCell colSpan={2}>
+                    Upadte collection
+                  </StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {Product.map((e, index) => (
+                  <StyledTableRow key={index}>
+                    <StyledTableCell scope="row">
+                      {e.Product_Name}
+                    </StyledTableCell>
+                    <StyledTableCell>{e.Product_Price}</StyledTableCell>
+                    <StyledTableCell>{e.Product_color}</StyledTableCell>
+                    <StyledTableCell className="StyledTableCell">
+                      <button
+                        key={e.id}
+                        type="button"
+                        onClick={() => DeleteProducts(e.id)}
+                      >
+                        Delete
+                      </button>
+                    </StyledTableCell>
+                    <StyledTableCell className="StyledTableCell">
+                      <button
+                        key={e.id}
+                        type="button"
+                        onClick={() => updateProducts(e.id)}
+                      >
+                        update
+                      </button>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
+        {/* {openUpadte ? (
+          <div>
+            <label htmlFor="Product_Name">Product Name : </label>
+            <input
+              type="text"
+              placeholder="update name"
+              // value={ProductName}
+              onChange={(e) => setNewProductName(e.target.value)}
+            />
+            <label htmlFor="Product_Name">Product Price : </label>
+            <input
+              type="text"
+              placeholder="update Price"
+              // value={ProductPrice}
+              onChange={(e) => setNewProductPrice(e.target.value)}
+            />
+            <label htmlFor="Product_color">Product color : </label>
+            <input
+              type="text"
+              placeholder="update color"
+              
+              onChange={(e) => {
+                setNewProductcolor(e.target.value);
+              }}
+            />
+            <button type="button" onClick={() => FinalUpadte()}>
+              update
+            </button>
+          </div>
+        ) : null} */}
+        <Dialog
+          open={openUpadte}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleClose}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle className="DialogTitle">
+            {"Are you sure want to update ?"}
+          </DialogTitle>
+          <DialogContent className="DialogContent">
+            <label htmlFor="Product_Name">Product Name : </label>
+            <input
+              type="text"
+              placeholder="update name"
+              // value={ProductName}
+              onChange={(e) => setNewProductName(e.target.value)}
+            />
+            <label htmlFor="Product_Name">Product Price : </label>
+            <input
+              type="text"
+              placeholder="update Price"
+              // value={ProductPrice}
+              onChange={(e) => setNewProductPrice(e.target.value)}
+            />
+            <label htmlFor="Product_color">Product color : </label>
+            <input
+              type="text"
+              placeholder="update color"
+              onChange={(e) => {
+                setNewProductcolor(e.target.value);
+              }}
+            />
+          </DialogContent>
+          <DialogActions className="DialogActions">
+            <Button onClick={handleClose}>Delete</Button>
+            <Button onClick={handleClickOpen}>Upadte</Button>
+          </DialogActions>
+        </Dialog>
       </form>
     </div>
   );
